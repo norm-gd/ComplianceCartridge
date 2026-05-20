@@ -9,6 +9,43 @@ An offline, AI-powered compliance analysis engine designed to evaluate your orga
 - **Executive Summaries**: Generates multilingual, professional summaries of the audit findings.
 - **Professional Deliverables**: Compiles findings into an institutional-grade, color-coded PDF report using LaTeX.
 
+## Architecture
+
+```mermaid
+graph LR
+    Client[Frontend<br>React 19 · Vite]
+
+    subgraph Backend [Backend API · FastAPI :8000]
+        Status[GET  /api/v1/status]
+        Ingest[POST /api/v1/ingest]
+        Audit[POST /api/v1/audit]
+        Summary[POST /api/v1/summary]
+        Export[POST /api/v1/export/pdf]
+        Clear[POST /api/v1/clear_db]
+    end
+
+    subgraph Services [Local Services]
+        Ollama[Ollama<br>llama3.1:8b · nomic-embed-text]
+        Chroma[(ChromaDB<br>Vector Store)]
+        Pdflatex{{pdflatex · TeX Live}}
+    end
+
+    Client -->|HTTP| Status
+    Client -->|HTTP| Ingest
+    Client -->|HTTP| Audit
+    Client -->|HTTP| Summary
+    Client -->|HTTP| Export
+    Client -->|HTTP| Clear
+
+    Ingest -->|embed chunks| Ollama
+    Ingest -->|upsert vectors| Chroma
+    Audit -->|query evidence| Chroma
+    Audit -->|evaluate controls| Ollama
+    Summary -->|generate text| Ollama
+    Export -->|compile PDF| Pdflatex
+    Clear -->|wipe collection| Chroma
+```
+
 ## Tech Stack
 
 - **Backend**: Python, FastAPI, PyMuPDF (PDF parsing), ChromaDB (vector storage)
@@ -107,8 +144,15 @@ Launch the required services in three separate terminal windows:
 
 1. **Ingestion**: Uploaded documents are parsed into text chunks, embedded via the `nomic-embed-text` model, and stored locally in a ChromaDB database.
 2. **Evaluation**: When auditing against a standard, the system searches the vector database for relevant evidence. The `llama3.1` model then analyzes the retrieved content to determine a compliance status and formulate recommendations.
-3. **Executive Summary**: The LLM crafts a professional, translated summary of the audit findings in your chosen language.
-4. **PDF Export**: The system dynamically generates a LaTeX document containing the detailed findings, scores, and summary. It compiles this document locally into a color-coded, ready-to-share PDF report.
+3. **Scoring**: The overall compliance posture is quantified using a weighted metric:
+
+   $$
+   \text{Trust Score} = \frac{\sum_i w_i \cdot s_i}{\sum_i w_i} \times 100
+   $$
+
+   *(where $w_i$ represents the weight of a given control and $s_i$ represents the compliance score achieved for that control).*
+4. **Executive Summary**: The LLM crafts a professional, translated summary of the audit findings in your chosen language.
+5. **PDF Export**: The system dynamically generates a LaTeX document containing the detailed findings, scores, and summary. It compiles this document locally into a color-coded, ready-to-share PDF report.
 
 ## Frontend Overview
 
