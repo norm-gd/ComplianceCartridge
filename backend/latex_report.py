@@ -19,7 +19,7 @@ from schemas import ExportPdfRequest, ExportFinding
 
 logger = logging.getLogger(__name__)
 
-PDFLATEX_BIN = "pdflatex"
+PDFLATEX_BIN = "/Library/TeX/texbin/pdflatex"
 PDFLATEX_TIMEOUT_SECONDS = 60
 
 # ---------------------------------------------------------------------------
@@ -108,8 +108,8 @@ _PREAMBLE = r"""
   colorlinks=true,
   linkcolor=tnDark,
   urlcolor=tnDark,
-  pdftitle={TrustNode Compliance Report},
-  pdfauthor={TrustNode}
+  pdftitle={ComplianceCartridge Compliance Report},
+  pdfauthor={ComplianceCartridge}
 }
 
 \color{tnInk}
@@ -117,7 +117,7 @@ _PREAMBLE = r"""
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
-\fancyfoot[L]{\small\color{tnGray} TrustNode — Automated compliance report}
+\fancyfoot[L]{\small\color{tnGray} ComplianceCartridge — Automated compliance report}
 \fancyfoot[R]{\small\color{tnGray} Page \thepage}
 
 \titleformat{\section}{\Large\bfseries\color{tnDark}}{}{0pt}{}
@@ -146,9 +146,9 @@ def _cover_block(req: ExportPdfRequest) -> str:
 
     return rf"""
 \begin{{center}}
-{{\color{{tnGray}}\footnotesize\textsc{{TrustNode}}\par}}
+{{\color{{tnGray}}\footnotesize\textsc{{ComplianceCartridge}}\par}}
 \vspace{{4pt}}
-{{\LARGE\bfseries\color{{tnDark}} TRUSTNODE AUTOMATED COMPLIANCE REPORT\par}}
+{{\LARGE\bfseries\color{{tnDark}} COMPLIANCECARTRIDGE COMPLIANCE REPORT\par}}
 \vspace{{6pt}}
 {{\color{{tnGray}}\small Generated {generated} \quad\textbar\quad Standard: \textbf{{{standard}}}\par}}
 \end{{center}}
