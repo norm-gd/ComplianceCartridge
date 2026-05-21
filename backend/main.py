@@ -85,7 +85,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="TrustNode — Compliance Engine",
+    title="ComplianceCartridge — Compliance Engine",
     version="0.1.0",
     description="Offline normative compliance engine based on local RAG (Ollama + ChromaDB).",
     lifespan=lifespan,
