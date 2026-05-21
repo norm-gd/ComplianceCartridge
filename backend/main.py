@@ -369,7 +369,7 @@ async def export_pdf_endpoint(payload: ExportPdfRequest) -> Response:
         content=pdf_bytes,
         media_type="application/pdf",
         headers={
-            "Content-Disposition": 'attachment; filename="TrustNode_Audit_Report.pdf"',
+            "Content-Disposition": 'attachment; filename="ComplianceCartridge_Audit_Report.pdf"',
         },
     )
 
