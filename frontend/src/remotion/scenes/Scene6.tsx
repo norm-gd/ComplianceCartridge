@@ -15,7 +15,7 @@ const BG_IMAGE_SRC: string | null = null; // staticFile("bg/scene6-void-core.jpg
 // === BEATS (300 frames @ 30fps) ===
 // Beat 1: 0–150   → counter 0 → 99
 // Beat 2: 150–220 → "Menos tiempo. Cero exposición."
-// Beat 3: 220–300 → Logo lockup "TrustNode" + fade to black
+// Beat 3: 220–300 → Logo lockup "ComplianceCartridge" + fade to black
 const COUNTER_END = 150;
 const TAGLINE_END = 220;
 const TOTAL = 300;
@@ -230,7 +230,7 @@ export const Scene6: React.FC = () => {
             textShadow: "0 0 60px rgba(255,255,255,0.25)",
           }}
         >
-          TrustNode
+          ComplianceCartridge
         </div>
         <div
           style={{

@@ -15,7 +15,7 @@ const UI_CLIP_SRC: string | null = null; // staticFile("ui/scene2-ollama-termina
 
 // === BEATS (300 frames @ 30fps) ===
 const BEATS = [
-  { id: "intro", text: "Conoce TrustNode.", start: 0, end: 100 },
+  { id: "intro", text: "Conoce ComplianceCartridge.", start: 0, end: 100 },
   { id: "stack", text: "Llama 3.1 · ChromaDB · RAG", start: 100, end: 200 },
   { id: "claim", text: "Zero Cloud. 100% Local.", start: 200, end: 300 },
 ] as const;
@@ -191,7 +191,7 @@ export const Scene2: React.FC = () => {
                   lineHeight: 1.6,
                 }}
               >
-                <div style={{ opacity: 0.6, marginBottom: 12 }}>~ trustnode $</div>
+                <div style={{ opacity: 0.6, marginBottom: 12 }}>~ compliancecartridge $</div>
                 <div>ollama run llama3.1</div>
                 <div style={{ opacity: 0.55 }}>
                   ▌ loading model (8B params)...

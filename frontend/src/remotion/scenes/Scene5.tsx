@@ -199,7 +199,7 @@ export const Scene5: React.FC = () => {
                   marginBottom: 14,
                 }}
               >
-                TrustNode · Audit Report
+                ComplianceCartridge · Audit Report
               </div>
               <div
                 style={{
@@ -263,7 +263,7 @@ export const Scene5: React.FC = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <span>TrustNode · Confidential</span>
+                <span>ComplianceCartridge · Confidential</span>
                 <span>1 / 47</span>
               </div>
             </div>
