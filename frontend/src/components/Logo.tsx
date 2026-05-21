@@ -1,4 +1,4 @@
-/** TrustNode mark: shield + hub node (trust + network). */
+/** ComplianceCartridge mark: shield + hub node (trust + network). */
 export function LogoMark() {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -26,7 +26,7 @@ export function Logo() {
         <LogoMark />
       </div>
       <span className="logo-text">
-        Trust<span>Node</span>
+        Compliance<span>Cartridge</span>
       </span>
     </div>
   );

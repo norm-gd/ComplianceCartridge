@@ -209,7 +209,7 @@ export function UploadModal({ open, onClose, onAuditComplete }: UploadModalProps
         </h2>
         <p className="modal-sub">
           Upload new files or reuse documents from past sessions, then pick the standards to assess
-          against. TrustNode wipes the RAG memory before every audit so results never bleed across
+          against. ComplianceCartridge wipes the RAG memory before every audit so results never bleed across
           runs.
         </p>
 

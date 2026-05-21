@@ -53,7 +53,7 @@ export function TrustHero({ auditResults }: TrustHeroProps) {
             <span>~{totalFindings * 2} hours</span>
           </div>
           <div className="trust-efficiency-row">
-            <span>TrustNode AI</span>
+            <span>ComplianceCartridge AI</span>
             <span className="trust-efficiency-highlight">1.2 minutes</span>
           </div>
           <div className="trust-efficiency-divider" />

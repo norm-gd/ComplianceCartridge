@@ -78,7 +78,7 @@ export function ReportPreviewModal({ open, auditResults, lastAuditAt, executiveS
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = "TrustNode_Audit_Report.pdf";
+      link.download = "ComplianceCartridge_Audit_Report.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -112,7 +112,7 @@ export function ReportPreviewModal({ open, auditResults, lastAuditAt, executiveS
               </span>
               <div>
                 <div className="report-preview-brand-name">
-                  Trust<span>Node</span>
+                  Compliance<span>Cartridge</span>
                 </div>
                 <div className="report-preview-brand-meta">Compliance report</div>
               </div>
@@ -170,7 +170,7 @@ export function ReportPreviewModal({ open, auditResults, lastAuditAt, executiveS
             </section>
           )}
 
-          <footer className="report-preview-footer">TrustNode · Automated compliance analysis</footer>
+          <footer className="report-preview-footer">ComplianceCartridge · Automated compliance analysis</footer>
         </article>
 
         <footer className="report-preview-actions">
