@@ -31,7 +31,7 @@ export function DocumentsPage({ onOpenUpload }: DocumentsPageProps) {
 
         {documents.length === 0 ? (
           <div className="card-empty">
-            No documents yet. Start an audit from the sidebar to ingest PDFs into TrustNode.
+            No documents yet. Start an audit from the sidebar to ingest PDFs into ComplianceCartridge.
           </div>
         ) : (
           <ul className="list-rows">
