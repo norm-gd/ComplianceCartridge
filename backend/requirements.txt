@@ -1,4 +1,4 @@
-# TrustNode backend — direct dependencies
+# ComplianceCartridge backend — direct dependencies
 # Install with: pip install -r requirements.txt
 
 # Web framework + ASGI server

@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+<<<<<<< HEAD
 import { ComplianceCartridgeEasterEggModal } from "./ComplianceCartridgeEasterEggModal";
+=======
+import { EasterEggModal } from "./EasterEggModal";
+>>>>>>> 29d9749 (Update product branding)
 
 const CUBE_SIZE = 52;
 const TAP_MOVE_THRESHOLD = 8;
@@ -96,7 +100,11 @@ export function PlaygroundCube() {
         </article>
       </section>
 
+<<<<<<< HEAD
       <ComplianceCartridgeEasterEggModal open={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
+=======
+      <EasterEggModal open={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
+>>>>>>> 29d9749 (Update product branding)
     </>
   );
 }
