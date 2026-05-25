@@ -148,11 +148,7 @@ def _cover_block(req: ExportPdfRequest) -> str:
 \begin{{center}}
 {{\color{{tnGray}}\footnotesize\textsc{{ComplianceCartridge}}\par}}
 \vspace{{4pt}}
-<<<<<<< HEAD
-{{\LARGE\bfseries\color{{tnDark}} COMPLIANCECARTRIDGE COMPLIANCE REPORT\par}}
-=======
 {{\LARGE\bfseries\color{{tnDark}} COMPLIANCECARTRIDGE AUTOMATED COMPLIANCE REPORT\par}}
->>>>>>> 0d51feb (Consistent naming convention)
 \vspace{{6pt}}
 {{\color{{tnGray}}\small Generated {generated} \quad\textbar\quad Standard: \textbf{{{standard}}}\par}}
 \end{{center}}

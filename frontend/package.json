@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "compliancecartridge-frontend",
-=======
   "name": "cc-frontend",
->>>>>>> bb3df02 (Rename frontend package and Remotion ID)
   "private": true,
   "version": "0.1.0",
   "type": "module",

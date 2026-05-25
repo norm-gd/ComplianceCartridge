@@ -10,11 +10,7 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
-<<<<<<< HEAD
-        id="ComplianceCartridgePromo"
-=======
         id="CCPromo"
->>>>>>> bb3df02 (Rename frontend package and Remotion ID)
         component={MainVideo}
         durationInFrames={DURATION_IN_FRAMES}
         fps={FPS}
