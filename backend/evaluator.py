@@ -1,5 +1,5 @@
 """
-evaluator.py — TrustNode AI inference layer.
+evaluator.py — ComplianceCartridge AI inference layer.
 
 Compliance engine: fully agnostic to any normative standard. All domain
 knowledge arrives via the `control` dict (the "cartridge") parsed upstream
@@ -343,6 +343,6 @@ if __name__ == "__main__":
         hired after December have not yet completed it.
     """
 
-    print("\n=== TrustNode Smoke Test — evaluate_control ===")
+    print("\n=== ComplianceCartridge Smoke Test — evaluate_control ===")
     result = evaluate_control("ISO 27001:2022", test_control, test_evidence)
     pprint.pprint(result)

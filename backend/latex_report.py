@@ -1,4 +1,4 @@
-"""latex_report.py — Build and compile an institutional TrustNode audit report.
+"""latex_report.py — Build and compile an institutional ComplianceCartridge audit report.
 
 Pipeline: ExportPdfRequest → LaTeX source → pdflatex → PDF bytes.
 
@@ -301,7 +301,7 @@ def render_pdf(req: ExportPdfRequest) -> bytes:
     """
     tex_source = build_report_tex(req)
 
-    with tempfile.TemporaryDirectory(prefix="trustnode_pdf_") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix="cc_pdf_") as tmpdir:
         workdir = Path(tmpdir)
         tex_path = workdir / "report.tex"
         tex_path.write_text(tex_source, encoding="utf-8")
