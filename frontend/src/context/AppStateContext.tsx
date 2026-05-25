@@ -57,7 +57,7 @@ interface AppStateContextValue extends AppState {
   removeReport: (id: string) => void;
 }
 
-const STORAGE_KEY = "trustnode.state.v1";
+const STORAGE_KEY = "cc.state.v1";
 
 const AppStateContext = createContext<AppStateContextValue | null>(null);
 
