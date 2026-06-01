@@ -194,6 +194,12 @@ _STATUS_TO_RISK: dict[str, str] = {
     "Non-Compliant": "High",
 }
 
+_STATUS_TO_SCORE: dict[str, float] = {
+    "Compliant":     1.0,
+    "Partial":       0.5,
+    "Non-Compliant": 0.0,
+}
+
 # ---------------------------------------------------------------------------
 # Public API — consumed by main.py
 # ---------------------------------------------------------------------------
@@ -287,6 +293,10 @@ def run_audit(payload: AuditRequest) -> AuditResponse:
     For each control: retrieves evidence from ChromaDB via query_evidence,
     calls evaluate_control, maps the raw result to SchemaAuditResult, and
     collects everything into an AuditResponse.
+
+    The global score is calculated using the weighted formula:
+        score = sum(weight_i * score_i) / sum(weight_i) * 100
+    where score_i is 1.0 for Compliant, 0.5 for Partial, 0.0 for Non-Compliant.
     """
     findings: list[SchemaAuditResult] = []
 
@@ -297,6 +307,7 @@ def run_audit(payload: AuditRequest) -> AuditResponse:
             control=control.model_dump(),
             chromadb_evidence=evidence,
         )
+        score = _STATUS_TO_SCORE.get(raw["status"], 0.0)
         findings.append(SchemaAuditResult(
             control_id=control.control_id,
             status=raw["status"],
@@ -304,10 +315,15 @@ def run_audit(payload: AuditRequest) -> AuditResponse:
             gaps=raw["gaps"],
             recommendation=raw["recommendation"],
             risk_level=_STATUS_TO_RISK.get(raw["status"], "High"),
+            score=score,
         ))
 
-    compliant = sum(1 for f in findings if f.status == "Compliant")
-    score = round(compliant / len(findings) * 100, 1) if findings else 0.0
+    total_weight = sum(c.weight for c in payload.controls)
+    weighted_sum = sum(
+        payload.controls[i].weight * findings[i].score
+        for i in range(len(payload.controls))
+    )
+    score = round(weighted_sum / total_weight * 100, 1) if total_weight else 0.0
 
     return AuditResponse(
         standard_audited=payload.standard_name,
