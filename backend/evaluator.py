@@ -14,6 +14,8 @@ from __future__ import annotations
 
 import json
 import logging
+import os
+import time
 from typing import Literal
 
 import httpx
@@ -33,12 +35,36 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Constants.
+# Configuration. Every value can be overridden via environment variables so
+# the pipeline can be tuned for low-RAM machines without code changes.
 # ---------------------------------------------------------------------------
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "llama3.1:8b"
-OLLAMA_TIMEOUT = 120  # seconds
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.1:8b")
+OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "120"))  # seconds
+
+# Passed to Ollama as the payload `options` block. Shrinking num_ctx cuts the
+# KV-cache RAM during inference; num_thread caps CPU so the machine stays
+# responsive; keep_alive controls how long the model stays resident in memory.
+LLM_NUM_CTX = int(os.getenv("LLM_NUM_CTX", "4096"))
+LLM_NUM_THREAD = int(os.getenv("LLM_NUM_THREAD", "0"))  # 0 = let Ollama decide
+LLM_KEEP_ALIVE = os.getenv("LLM_KEEP_ALIVE", "5m")
+
+# Opt-in low-RAM pacing: inserts a short pause between control evaluations so
+# the OS gets breathing room and the box stays usable for other tasks.
+LOW_RAM_MODE = os.getenv("COMPLIANCE_LOW_RAM", "").strip().lower() in ("1", "true", "yes", "on")
+LOW_RAM_PAUSE_SECONDS = float(os.getenv("COMPLIANCE_LOW_RAM_PAUSE", "1.0"))
+
+
+def _llm_options() -> dict:
+    """Build the Ollama ``options`` block from the tunable config above."""
+    opts: dict = {
+        "num_ctx": LLM_NUM_CTX,
+        "keep_alive": LLM_KEEP_ALIVE,
+    }
+    if LLM_NUM_THREAD > 0:
+        opts["num_thread"] = LLM_NUM_THREAD
+    return opts
 
 AUDIT_SYSTEM_PROMPT = """
 You are a Senior Normative Auditor with over 20 years of experience at a Big 4 consulting 
@@ -152,6 +178,7 @@ def evaluate_control(
         "prompt": full_prompt,
         "format": "json",
         "stream": False,
+        "options": _llm_options(),
     }
 
     def _call_and_parse() -> dict:
@@ -188,7 +215,7 @@ def evaluate_control(
 # Risk mapping helper
 # ---------------------------------------------------------------------------
 
-_STATUS_TO_RISK: dict[str, str] = {
+_STATUS_TO_RISK: dict[str, Literal["High", "Medium", "Low", "None"]] = {
     "Compliant":     "None",
     "Partial":       "Medium",
     "Non-Compliant": "High",
@@ -264,11 +291,13 @@ def generate_executive_summary(
         "model": OLLAMA_MODEL,
         "prompt": full_prompt,
         "stream": False,
+        "options": _llm_options(),
     }
 
     try:
         with httpx.Client(timeout=OLLAMA_TIMEOUT) as client:
             response = client.post(OLLAMA_URL, json=payload)
+
             response.raise_for_status()
         text: str = response.json()["response"].strip()
     except (httpx.HTTPError, KeyError, json.JSONDecodeError) as exc:
@@ -289,8 +318,9 @@ def run_audit(payload: AuditRequest) -> AuditResponse:
     collects everything into an AuditResponse.
     """
     findings: list[SchemaAuditResult] = []
+    total = len(payload.controls)
 
-    for control in payload.controls:
+    for i, control in enumerate(payload.controls):
         evidence = query_evidence(control.search_keywords)
         raw = evaluate_control(
             standard_name=payload.standard_name,
@@ -305,6 +335,13 @@ def run_audit(payload: AuditRequest) -> AuditResponse:
             recommendation=raw["recommendation"],
             risk_level=_STATUS_TO_RISK.get(raw["status"], "High"),
         ))
+
+        if LOW_RAM_MODE and i < total - 1:
+            logger.debug(
+                "LOW_RAM_MODE: pausing %.1fs before next control.",
+                LOW_RAM_PAUSE_SECONDS,
+            )
+            time.sleep(LOW_RAM_PAUSE_SECONDS)
 
     compliant = sum(1 for f in findings if f.status == "Compliant")
     score = round(compliant / len(findings) * 100, 1) if findings else 0.0
