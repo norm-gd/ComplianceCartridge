@@ -13,6 +13,7 @@ export interface ControlSchema {
   title: string;
   description: string;
   search_keywords: string[];
+  weight?: number;
 }
 
 export interface AuditRequest {
@@ -29,6 +30,7 @@ export interface AuditResult {
   gaps: string;
   recommendation: string;
   risk_level: "High" | "Medium" | "Low" | "None";
+  score: number;
 }
 
 export interface AuditResponse {

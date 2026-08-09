@@ -11,6 +11,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Security policies must be defined, approved by management, published and communicated to all employees.",
         search_keywords: ["security policy", "information security", "management approval", "policy communication"],
+        weight: 1.0,
       },
       {
         control_id: "A.9.1",
@@ -18,6 +19,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "An access control policy shall be established and reviewed based on business and security requirements.",
         search_keywords: ["access control", "user access", "authorization", "privilege"],
+        weight: 3.0,
       },
       {
         control_id: "A.9.4.2",
@@ -25,6 +27,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Multi-factor authentication and secure log-on procedures must be implemented to prevent unauthorized access.",
         search_keywords: ["MFA", "multi-factor", "authentication", "login", "two-factor"],
+        weight: 3.0,
       },
       {
         control_id: "A.12.6.1",
@@ -32,6 +35,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Technical vulnerabilities must be identified, evaluated and remediated in a timely manner.",
         search_keywords: ["vulnerability", "patch", "remediation", "CVE", "security update"],
+        weight: 2.0,
       },
       {
         control_id: "A.16.1",
@@ -39,6 +43,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Security incidents must be reported, classified, and handled according to a documented incident response procedure.",
         search_keywords: ["incident", "security event", "breach", "incident response", "reporting"],
+        weight: 3.0,
       },
     ],
   },
@@ -52,6 +57,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Internal and external issues relevant to quality objectives must be identified and documented.",
         search_keywords: ["context", "internal issues", "external issues", "stakeholders", "interested parties"],
+        weight: 1.0,
       },
       {
         control_id: "8.4.1",
@@ -59,6 +65,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Supplier evaluation criteria and selection processes must be documented and applied to all external providers.",
         search_keywords: ["supplier", "vendor", "external provider", "evaluation", "selection criteria"],
+        weight: 2.0,
       },
       {
         control_id: "9.1.1",
@@ -66,6 +73,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "The organization shall determine what needs to be monitored and measured, with defined KPIs and evaluation methods.",
         search_keywords: ["KPI", "performance indicator", "measurement", "monitoring", "evaluation"],
+        weight: 2.0,
       },
       {
         control_id: "10.2",
@@ -73,6 +81,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Nonconformities must be documented, root causes identified, and corrective actions implemented and verified.",
         search_keywords: ["nonconformity", "corrective action", "root cause", "defect", "deviation"],
+        weight: 2.0,
       },
     ],
   },
@@ -86,6 +95,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Significant environmental aspects and their impacts must be identified and documented.",
         search_keywords: ["environmental aspect", "environmental impact", "significant", "lifecycle"],
+        weight: 3.0,
       },
       {
         control_id: "6.2.1",
@@ -93,6 +103,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Environmental objectives with measurable targets, baselines and timelines must be established and documented.",
         search_keywords: ["environmental objective", "target", "baseline", "greenhouse", "emission", "measurable"],
+        weight: 1.0,
       },
       {
         control_id: "7.4",
@@ -100,6 +111,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Internal and external communication procedures regarding environmental performance must be documented.",
         search_keywords: ["environmental communication", "disclosure", "reporting", "stakeholder"],
+        weight: 1.0,
       },
       {
         control_id: "8.1",
@@ -107,6 +119,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Controls must be established and maintained for operations associated with significant environmental aspects.",
         search_keywords: ["operational control", "environmental procedure", "waste", "emissions control"],
+        weight: 2.0,
       },
     ],
   },
@@ -120,6 +133,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Personal data must be processed lawfully, fairly, and transparently with a documented lawful basis.",
         search_keywords: ["lawful basis", "data processing", "personal data", "consent", "legitimate interest"],
+        weight: 3.0,
       },
       {
         control_id: "Art.13",
@@ -127,6 +141,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Data subjects must be informed about data processing purposes, retention periods, and their rights.",
         search_keywords: ["privacy notice", "privacy policy", "data subject rights", "transparency"],
+        weight: 2.0,
       },
       {
         control_id: "Art.17",
@@ -134,6 +149,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Procedures must exist to delete personal data upon request or when no longer necessary.",
         search_keywords: ["data deletion", "right to erasure", "right to be forgotten", "data retention", "retention schedule"],
+        weight: 2.0,
       },
       {
         control_id: "Art.32",
@@ -141,6 +157,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Appropriate technical and organizational measures must be implemented to ensure data security.",
         search_keywords: ["data security", "encryption", "pseudonymization", "technical measures", "data breach"],
+        weight: 3.0,
       },
     ],
   },
@@ -154,6 +171,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Access to systems and data is restricted to authorized users through documented provisioning and deprovisioning procedures.",
         search_keywords: ["access provisioning", "access control", "deprovisioning", "user access review", "least privilege"],
+        weight: 3.0,
       },
       {
         control_id: "CC7.5",
@@ -161,6 +179,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Incident response plan must include documented recovery time objectives (RTO) and recovery point objectives (RPO).",
         search_keywords: ["incident response", "recovery time", "RTO", "RPO", "business continuity", "disaster recovery"],
+        weight: 3.0,
       },
       {
         control_id: "CC8.1",
@@ -168,6 +187,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Changes to systems must follow a documented change management process with authorization and testing.",
         search_keywords: ["change management", "change control", "deployment", "release management"],
+        weight: 2.0,
       },
       {
         control_id: "CC9.2",
@@ -175,6 +195,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Risk assessments must be performed and risk treatment plans documented and reviewed.",
         search_keywords: ["risk assessment", "risk treatment", "risk register", "risk mitigation"],
+        weight: 2.0,
       },
     ],
   },
@@ -188,6 +209,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "OH&S hazards must be identified and occupational health and safety risks assessed and documented.",
         search_keywords: ["hazard", "risk assessment", "occupational health", "safety risk", "danger"],
+        weight: 3.0,
       },
       {
         control_id: "8.1",
@@ -195,6 +217,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Controls must be implemented to eliminate hazards and reduce OH&S risks.",
         search_keywords: ["safety control", "hazard control", "protective equipment", "PPE", "safety procedure"],
+        weight: 2.0,
       },
       {
         control_id: "9.1",
@@ -202,6 +225,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "OH&S performance must be monitored and measured with defined safety KPIs and incident statistics.",
         search_keywords: ["safety performance", "safety KPI", "incident rate", "accident", "near miss"],
+        weight: 2.0,
       },
       {
         control_id: "10.2",
@@ -209,6 +233,7 @@ export const STANDARD_DEFINITIONS: Record<string, AuditRequest> = {
         description:
           "Work-related incidents must be investigated to identify root causes and implement corrective actions.",
         search_keywords: ["incident investigation", "accident investigation", "root cause", "corrective action", "safety incident"],
+        weight: 3.0,
       },
     ],
   },

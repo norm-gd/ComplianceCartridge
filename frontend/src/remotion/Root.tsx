@@ -10,7 +10,7 @@ export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Composition
-        id="ComplianceCartridgePromo"
+        id="CCPromo"
         component={MainVideo}
         durationInFrames={DURATION_IN_FRAMES}
         fps={FPS}

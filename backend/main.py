@@ -1,5 +1,5 @@
 """
-TrustNode — Universal Compliance Engine (Offline RAG)
+ComplianceCartridge — Universal Compliance Engine (Offline RAG)
 main.py — FastAPI orchestrator
 
 Role: Expose the public API, validate inputs/outputs via Pydantic,
@@ -59,7 +59,7 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
     stream=sys.stdout,
 )
-logger = logging.getLogger("trustnode.api")
+logger = logging.getLogger("cc.api")
 
 
 # ---------------------------------------------------------------------------
@@ -72,7 +72,7 @@ async def lifespan(app: FastAPI):
     Keeps a single httpx.AsyncClient alive for the entire app lifetime —
     faster than creating one per request and centralises the Ollama timeout.
     """
-    logger.info("Booting TrustNode API…")
+    logger.info("Booting ComplianceCartridge API…")
     app.state.http = httpx.AsyncClient(
         base_url=OLLAMA_BASE_URL,
         timeout=OLLAMA_TIMEOUT_SECONDS,
@@ -86,7 +86,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="TrustNode — Compliance Engine",
+    title="ComplianceCartridge — Compliance Engine",
     version="0.1.0",
     description="Offline normative compliance engine based on local RAG (Ollama + ChromaDB).",
     lifespan=lifespan,

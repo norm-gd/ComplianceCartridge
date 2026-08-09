@@ -1,4 +1,4 @@
-"""latex_report.py — Build and compile an institutional TrustNode audit report.
+"""latex_report.py — Build and compile an institutional ComplianceCartridge audit report.
 
 Pipeline: ExportPdfRequest → LaTeX source → pdflatex → PDF bytes.
 
@@ -148,7 +148,7 @@ def _cover_block(req: ExportPdfRequest) -> str:
 \begin{{center}}
 {{\color{{tnGray}}\footnotesize\textsc{{ComplianceCartridge}}\par}}
 \vspace{{4pt}}
-{{\LARGE\bfseries\color{{tnDark}} COMPLIANCECARTRIDGE COMPLIANCE REPORT\par}}
+{{\LARGE\bfseries\color{{tnDark}} COMPLIANCECARTRIDGE AUTOMATED COMPLIANCE REPORT\par}}
 \vspace{{6pt}}
 {{\color{{tnGray}}\small Generated {generated} \quad\textbar\quad Standard: \textbf{{{standard}}}\par}}
 \end{{center}}
@@ -297,7 +297,7 @@ def render_pdf(req: ExportPdfRequest) -> bytes:
     """
     tex_source = build_report_tex(req)
 
-    with tempfile.TemporaryDirectory(prefix="trustnode_pdf_") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix="cc_pdf_") as tmpdir:
         workdir = Path(tmpdir)
         tex_path = workdir / "report.tex"
         tex_path.write_text(tex_source, encoding="utf-8")

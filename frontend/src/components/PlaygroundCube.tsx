@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ComplianceCartridgeEasterEggModal } from "./ComplianceCartridgeEasterEggModal";
+import { EasterEggModal } from "./EasterEggModal";
 
 const CUBE_SIZE = 52;
 const TAP_MOVE_THRESHOLD = 8;
@@ -96,7 +96,7 @@ export function PlaygroundCube() {
         </article>
       </section>
 
-      <ComplianceCartridgeEasterEggModal open={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
+      <EasterEggModal open={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
     </>
   );
 }

@@ -191,7 +191,7 @@ export const Scene2: React.FC = () => {
                   lineHeight: 1.6,
                 }}
               >
-                <div style={{ opacity: 0.6, marginBottom: 12 }}>~ compliancecartridge $</div>
+                <div style={{ opacity: 0.6, marginBottom: 12 }}>~ cc $</div>
                 <div>ollama run llama3.1</div>
                 <div style={{ opacity: 0.55 }}>
                   ▌ loading model (8B params)...

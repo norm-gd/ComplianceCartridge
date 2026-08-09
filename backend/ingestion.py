@@ -1,5 +1,5 @@
 """
-ingestion.py — Document ingestion module for TrustNode
+ingestion.py — Document ingestion module for ComplianceCartridge
 =======================================================
 Responsibilities:
   1. Extract and chunk text from corporate PDFs (PyMuPDF).
@@ -203,7 +203,7 @@ def get_ollama_embedding(text: str) -> list[float]:
 
 def process_and_store_document(
     file_paths: list[str],
-    collection_name: str = "trustnode_evidence",
+    collection_name: str = "cc_evidence",
 ) -> None:
     """
     Main ingestion function. For each PDF in `file_paths`:
@@ -302,7 +302,7 @@ def process_and_store_document(
 def query_evidence(
     keywords: list[str],
     n_results: int = 3,
-    collection_name: str = "trustnode_evidence",
+    collection_name: str = "cc_evidence",
 ) -> str:
     """
     Converts a list of keywords into an embedding, searches ChromaDB for
@@ -383,7 +383,7 @@ def query_evidence(
 # 5. PUBLIC API — consumed by main.py
 # ══════════════════════════════════════════════
 
-def get_collection_stats(collection_name: str = "trustnode_evidence") -> dict:
+def get_collection_stats(collection_name: str = "cc_evidence") -> dict:
     """Return document count and availability for the ChromaDB collection."""
     client = chromadb.PersistentClient(
         path=CHROMA_PATH,
@@ -400,7 +400,7 @@ def get_collection_stats(collection_name: str = "trustnode_evidence") -> dict:
     }
 
 
-def clear_collection(collection_name: str = "trustnode_evidence") -> dict:
+def clear_collection(collection_name: str = "cc_evidence") -> dict:
     """Drop the ChromaDB collection so the next ingest starts from a clean slate.
 
     Used by ``POST /api/v1/clear_db`` before every new audit run to prevent
@@ -425,7 +425,7 @@ def clear_collection(collection_name: str = "trustnode_evidence") -> dict:
     return {"cleared": deleted, "collection": collection_name, "documents": 0}
 
 
-def ingest_pdf(file_bytes: bytes, filename: str, collection_name: str = "trustnode_evidence") -> dict:
+def ingest_pdf(file_bytes: bytes, filename: str, collection_name: str = "cc_evidence") -> dict:
     """Ingest a single PDF from raw bytes into ChromaDB.
 
     Writes bytes to a temp file, extracts chunks, embeds them and upserts

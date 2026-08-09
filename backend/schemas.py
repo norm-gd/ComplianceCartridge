@@ -7,6 +7,7 @@ class ControlSchema(BaseModel):
     title: str = Field(description="Short, human-readable name of the control rule.")
     description: str = Field(description="Full description of what the control requires and how compliance is assessed.")
     search_keywords: list[str] = Field(description="List of keywords used to retrieve relevant evidence from the document corpus for this control.")
+    weight: float = Field(default=1.0, description="Control weight for scoring. Critical controls should have higher weights (e.g., 3.0), important controls medium weights (e.g., 2.0), foundational controls standard weights (e.g., 1.0).")
 
 
 class StandardSchema(BaseModel):
@@ -26,11 +27,12 @@ class AuditResult(BaseModel):
     risk_level: Literal["High", "Medium", "Low", "None"] = Field(
         description="Risk severity associated with the compliance gap. 'None' when status is 'Compliant', 'High' for critical gaps with significant regulatory or operational exposure."
     )
+    score: float = Field(description="Numeric compliance score for this control (0.0–1.0). Compliant=1.0, Partial=0.5, Non-Compliant=0.0.")
 
 
 class FullAuditReport(BaseModel):
     standard_audited: str = Field(description="Name of the normative standard that was audited, matching StandardSchema.standard_name.")
-    global_score_percentage: float = Field(description="Overall compliance score expressed as a percentage (0.0–100.0), calculated as the ratio of fully compliant controls to total controls evaluated.")
+    global_score_percentage: float = Field(description="Overall compliance score expressed as a percentage (0.0–100.0), calculated as weighted average: sum(weight_i * score_i) / sum(weight_i) * 100, where score_i is 1.0 for Compliant, 0.5 for Partial, 0.0 for Non-Compliant.")
     results: list[AuditResult] = Field(description="List of individual audit results, one entry per evaluated control, in the same order as the controls in the standard.")
 
 
