@@ -20,11 +20,11 @@ import chromadb
 from chromadb.config import Settings
 
 # ──────────────────────────────────────────────
-# Global configuration
+# Global configuration (env-overridable)
 # ──────────────────────────────────────────────
-OLLAMA_URL   = "http://localhost:11434/api/embeddings"
-OLLAMA_MODEL = "nomic-embed-text"
-CHROMA_PATH  = "./chroma_db"
+OLLAMA_URL   = os.getenv("OLLAMA_URL", "http://localhost:11434/api/embeddings")
+OLLAMA_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
+CHROMA_PATH  = os.getenv("CHROMA_PATH", "./chroma_db")
 
 
 # ──────────────────────────────────────────────
