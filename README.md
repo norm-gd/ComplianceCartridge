@@ -133,6 +133,9 @@ Launch the required services in three separate terminal windows:
    # Runs at http://localhost:8000 (Swagger docs available at /docs)
    ```
 
+   On a low-RAM machine, see [Performance & Low-RAM Tuning](#performance--low-ram-tuning)
+   for env vars to export before starting the API.
+
 3. **Frontend Application**:
    ```bash
    cd frontend
@@ -179,3 +182,84 @@ Default settings can be adjusted in the backend configuration files (`main.py` a
 - API timeouts and Ollama URL endpoints
 - Specific LLM model choices
 - PDF file size limits and compilation timeouts
+
+## Performance & Low-RAM Tuning
+
+Most of the memory that this stack consumes lives in **Ollama**, not the Python
+backend. When an audit runs, Ollama keeps the LLM model (`llama3.1:8b`, ~4-5 GB
+at its default 4-bit quantization) resident for the entire run, plus a growing
+context cache — which can choke machines with 8 GB of RAM or less. The backend
+itself only sends HTTP requests; it does not hold the model in memory.
+
+There are several ways to reduce the footprint without touching the code.
+
+### 1. Tune Ollama itself (biggest impact)
+
+Export these **before running `ollama serve`** to stop the server from keeping
+multiple models / requests in memory at once and to free RAM quickly when idle:
+
+```bash
+export OLLAMA_MAX_LOADED_MODELS=1      # load one model at a time
+export OLLAMA_NUM_PARALLEL=1           # handle one request at a time
+export OLLAMA_KEEP_ALIVE=2m            # unload model 2 min after last use
+export OLLAMA_FLASH_ATTENTION=1        # smaller KV cache where supported
+ollama serve
+```
+
+### 2. Switch to a smaller LLM
+
+The biggest single win is a smaller reasoning model. The backend takes the model
+name from the `OLLAMA_MODEL` env var, so you can downgrade without code changes:
+
+```bash
+ollama pull llama3.2:3b        # ~2 GB — good balance on 8 GB machines
+# or even lighter:
+ollama pull llama3.2:1b        # ~1.3 GB — best for very constrained boxes
+```
+
+```bash
+export OLLAMA_MODEL=llama3.2:3b
+```
+
+For embeddings, `nomic-embed-text` (~270 MB) is already small, but you can pick
+another embedder via `OLLAMA_EMBED_MODEL`.
+
+### 3. Shrink the context window (backend env vars)
+
+These are read by the backend to build the Ollama `options` block for every call:
+
+| Env var | Default | Purpose |
+| --- | --- | --- |
+| `LLM_NUM_CTX` | `4096` | Context window (tokens). Lower = smaller KV cache = less RAM. |
+| `LLM_NUM_THREAD` | `0` | 0 lets Ollama decide. Cap it (e.g. `4`) to keep other apps responsive. |
+| `LLM_KEEP_ALIVE` | `5m` | How long the model stays loaded after each call. `0` unloads immediately, `30s` is a good low-RAM compromise. |
+| `OLLAMA_TIMEOUT` | `120` | Per-call HTTP timeout (seconds). |
+| `OLLAMA_URL` | `http://localhost:11434/api/generate` | Override the LLM endpoint. |
+| `OLLAMA_BASE_URL` | `http://localhost:11434` | Base URL used for the health check (main.py). |
+| `CHROMA_PATH` | `./chroma_db` | Where the vector store lives (ingestion.py). |
+
+### 4. Low-RAM pacing mode
+
+Set `COMPLIANCE_LOW_RAM=1` to slow the audit loop down a little (a short pause
+between control evaluations) so the OS and other apps get breathing room:
+
+```bash
+export COMPLIANCE_LOW_RAM=1
+export COMPLIANCE_LOW_RAM_PAUSE=1.5    # optional, seconds between controls
+export LLM_NUM_THREAD=2                # optional: cap CPU cores used by Ollama
+python main.py
+```
+
+A good starting point for an **8 GB machine**:
+
+```bash
+export OLLAMA_MAX_LOADED_MODELS=1
+export OLLAMA_NUM_PARALLEL=1
+export OLLAMA_KEEP_ALIVE=2m
+export OLLAMA_FLASH_ATTENTION=1
+export LLM_NUM_CTX=2048
+export LLM_NUM_THREAD=4               # reserve cores for multitasking
+export COMPLIANCE_LOW_RAM=1
+export COMPLIANCE_LOW_RAM_PAUSE=1.0
+export OLLAMA_MODEL=llama3.2:3b        # optional: drop from 8b to 3b
+```
