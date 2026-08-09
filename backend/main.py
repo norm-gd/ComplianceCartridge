@@ -9,6 +9,7 @@ delegate heavy work to `ingestion` and `evaluator`. No business logic here.
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from contextlib import asynccontextmanager
 from typing import List
@@ -47,7 +48,7 @@ from schemas import (
 # Configuración y logging
 # ---------------------------------------------------------------------------
 
-OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_TIMEOUT_SECONDS = 5.0  # Health-check only; actual inference timeouts live in evaluator
 MAX_PDF_SIZE_MB = 50
 ALLOWED_MIME_TYPES = {"application/pdf"}
